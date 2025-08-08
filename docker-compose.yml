@@ -16,7 +16,7 @@ services:
     restart: always
 
   backend:
-    build: ..
+    build: .
     container_name: backend_loberia
     ports:
       - "5000:5000"
