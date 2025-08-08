@@ -1,18 +1,19 @@
-# Usamos una imagen oficial de Node.js
-FROM node:18
+# Imagen oficial de Node.js basada en Alpine para ser más ligera
+FROM node:18-alpine
 
-# Establecemos el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copiamos los archivos del proyecto al contenedor
+# Copiamos solo package.json y package-lock.json para aprovechar cache
 COPY package*.json ./
-RUN npm install
 
-# Ahora copiamos el resto del código
+# Instalamos solo dependencias de producción (más liviano)
+RUN npm install --production
+
+# Copiamos el resto del código
 COPY . .
 
-# Exponemos el puerto del backend
+# Exponemos el puerto que usa el backend (5000)
 EXPOSE 5000
 
-# Comando para iniciar el servidor
+# Comando para iniciar la app
 CMD ["node", "index.js"]
